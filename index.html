@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحاب - عالم سحري</title>
-    
+    <title>رحاب | عالم من السحر والجمال</title>
     <style>
+        /* كيفية التعديل:
+           1. لتعديل الجمل: قم بتعديل مصفوفة messages في قسم JavaScript
+           2. لتغيير الألوان: قم بتعديل متغيرات CSS في قسم :root
+           3. لتعديل مدة الطيران: قم بتعديل animation-duration في .butterfly
+        */
+
+        /* متغيرات الألوان للوضع الليلي */
         :root {
-            /* ألوان مريحة للعين */
-            --bg-light: #F5F7FA;
-            --bg-dark: #2C3E50;
-            --text-light: #2C3E50;
-            --text-dark: #ECF0F1;
-            --accent: #E74C3C;
-            --wood: #8B4513;
-            --wood-light: #CD853F;
-            --gold: #F39C12;
-            --shadow: rgba(0,0,0,0.2);
-        }
-
-        .dark-mode {
-            --bg-light: #1A252F;
-            --bg-dark: #0F1419;
-            --text-light: #ECF0F1;
-            --text-dark: #BDC3C7;
-            --accent: #E67E22;
-            --wood: #5D4037;
+            --bg-color: #121212;
+            --primary-color: #1E1E1E;
+            --secondary-color: #2D2D2D;
+            --text-color: #E0E0E0;
+            --accent-color: #BB86FC;
+            --gold: #FFD700;
+            --pink: #FF4B5C;
+            --wood-color: #5D4037;
             --wood-light: #8D6E63;
-            --gold: #F1C40F;
-            --shadow: rgba(0,0,0,0.4);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --transition: all 0.6s ease-in-out;
         }
 
+        /* إعدادات عامة */
         * {
             margin: 0;
             padding: 0;
@@ -39,745 +35,658 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-light);
-            min-height: 100vh;
-            transition: all 0.3s ease;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* زر الوضع الليلي */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 50%;
-            background: var(--accent);
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
+        /* تحسينات للحركة للمستخدمين الذين يفضلون تقليلها */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        /* Header */
-        .header {
+        /* الهيدر */
+        header {
             text-align: center;
-            padding: 3rem 1rem;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            position: relative;
         }
 
-        .header h1 {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
             font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
         }
 
-        .header p {
-            color: var(--text-dark);
+        .nickname {
+            color: var(--pink);
             font-size: 1.2rem;
             font-style: italic;
         }
 
-        /* المحتوى */
-        .main-content {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .welcome-text {
-            font-size: 1.3rem;
-            color: var(--text-dark);
-            line-height: 1.8;
-            margin-bottom: 3rem;
-        }
-
-        /* الصندوق الخشبي الكبير */
-        .magic-box {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(145deg, var(--wood), var(--wood-light));
+        /* لوحة التحكم */
+        .dashboard {
+            background-color: var(--primary-color);
             border-radius: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 10px 30px var(--shadow),
-                inset 0 2px 4px rgba(255,255,255,0.1),
-                inset 0 -2px 4px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 100;
-            border: 4px solid var(--gold);
-        }
-
-        .magic-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 3px,
-                rgba(0,0,0,0.1) 3px,
-                rgba(0,0,0,0.1) 6px
-            );
-        }
-
-        .magic-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px var(--shadow);
-        }
-
-        .box-icon {
-            font-size: 4rem;
-            color: var(--gold);
-            z-index: 1;
-        }
-
-        /* العصا السحرية الحقيقية */
-        .magic-wand {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, var(--gold), #FFD700);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
-            transition: all 0.3s ease;
-            z-index: 100;
+            box-shadow: var(--shadow);
+            margin: 1rem auto;
+            padding: 2rem;
+            max-width: 90%;
+            width: 600px;
+            min-height: 300px;
+            transition: var(--transition);
             position: relative;
+            overflow: hidden;
         }
 
-        .magic-wand::before {
-            content: '✨';
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            font-size: 20px;
-            animation: sparkle 2s infinite;
-        }
-
-        .magic-wand::after {
-            content: '✨';
-            position: absolute;
-            bottom: -5px;
-            left: -10px;
-            font-size: 15px;
-            animation: sparkle 2s infinite 1s;
-        }
-
-        .magic-wand:hover {
-            transform: scale(1.1) rotate(-15deg);
-        }
-
-        .wand-icon {
-            font-size: 2.5rem;
-            transform: rotate(45deg);
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.5); }
-        }
-
-        /* الفراشات الجميلة */
-        .butterfly {
+        /* صندوق التفاعل الخشبي */
+        .interaction-box {
             position: fixed;
-            width: 60px;
-            height: 60px;
-            pointer-events: none;
-            z-index: 99;
+            bottom: 50px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--wood-color), var(--wood-light));
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        inset 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+            border: 2px solid var(--wood-light);
+        }
+
+        .interaction-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7),
+                        inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .interaction-box.open {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--wood-light), var(--wood-color));
+        }
+
+        .lock-icon {
+            width: 40px;
+            height: 40px;
+            fill: var(--gold);
+            transition: var(--transition);
+        }
+
+        .interaction-box.open .lock-icon {
             opacity: 0;
         }
 
-        .butterfly svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.3));
+        /* الرسائل */
+        .message-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 80%;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            border: 1px solid var(--accent-color);
         }
 
-        .butterfly.flying {
+        .message-container.show {
             opacity: 1;
-            animation: flyFullScreen 10s ease-in-out forwards;
+            pointer-events: all;
+            animation: glow 2s infinite alternate;
         }
 
-        .butterfly.returning {
-            animation: returnMagically 3s ease-in-out forwards;
+        .message {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
         }
 
-        /* طيران في الشاشة كاملة */
-        @keyframes flyFullScreen {
-            0% { 
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+                border-color: var(--accent-color);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(187, 134, 252, 0.5), 0 0 30px rgba(187, 134, 252, 0.2);
+                border-color: var(--gold);
+            }
+        }
+
+        /* الفراشات */
+        .butterfly {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            animation: fly 10s linear forwards;
+            filter: drop-shadow(0 0 5px rgba(187, 134, 252, 0.7));
+        }
+
+        @keyframes fly {
+            0% {
                 transform: translate(0, 0) rotate(0deg);
-                opacity: 1;
-            }
-            10% { 
-                transform: translate(-300px, -200px) rotate(45deg);
-                opacity: 1;
-            }
-            20% { 
-                transform: translate(400px, -100px) rotate(-30deg);
-                opacity: 1;
-            }
-            30% { 
-                transform: translate(-200px, -400px) rotate(60deg);
-                opacity: 1;
-            }
-            40% { 
-                transform: translate(500px, -300px) rotate(-45deg);
-                opacity: 1;
-            }
-            50% { 
-                transform: translate(-400px, -150px) rotate(90deg);
-                opacity: 1;
-            }
-            60% { 
-                transform: translate(300px, -500px) rotate(-60deg);
-                opacity: 1;
-            }
-            70% { 
-                transform: translate(-100px, -350px) rotate(30deg);
-                opacity: 1;
-            }
-            80% { 
-                transform: translate(200px, -200px) rotate(-90deg);
-                opacity: 1;
-            }
-            90% { 
-                transform: translate(-50px, -450px) rotate(15deg);
-                opacity: 1;
-            }
-            100% { 
-                transform: translate(100px, -600px) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        /* عودة سحرية للصندوق */
-        @keyframes returnMagically {
-            0% { 
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-            50% { 
-                opacity: 0.8;
-                transform: scale(0.5) rotate(180deg);
-            }
-            100% { 
                 opacity: 0;
-                transform: scale(0.1) rotate(360deg) translate(0, 0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
+                opacity: 0;
             }
         }
 
-        /* رسالة الحب */
-        .love-message {
+        .butterfly .wing {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            border-radius: 50%;
+            animation: flap 0.2s infinite alternate;
+        }
+
+        .butterfly .left-wing {
+            left: 0;
+            transform-origin: right center;
+        }
+
+        .butterfly .right-wing {
+            right: 0;
+            transform-origin: left center;
+        }
+
+        @keyframes flap {
+            from {
+                transform: scaleY(0.8);
+            }
+            to {
+                transform: scaleY(1.2);
+            }
+        }
+
+        /* العصا السحرية */
+        .magic-wand {
+            position: fixed;
+            bottom: 50px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to right, #8B5A96, #BB86FC);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(139, 90, 150, 0.5);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .magic-wand:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 25px rgba(187, 134, 252, 0.7);
+        }
+
+        .wand-icon {
+            width: 50px;
+            height: 50px;
+            fill: var(--gold);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* البطاقة السحرية */
+        .magic-card {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            background: var(--bg-dark);
-            padding: 3rem 2.5rem;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px var(--shadow);
-            border: 3px solid var(--accent);
-            max-width: 90vw;
-            width: 500px;
-            text-align: center;
-            z-index: 200;
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .love-message.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .love-message.hide {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-        }
-
-        .love-message h3 {
-            color: var(--accent);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .love-message p {
-            color: var(--text-light);
-            font-size: 1.4rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .love-message .signature {
-            color: var(--gold);
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-
-        /* نافذة القمر */
-        .moon-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 300;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .moon-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .moon-card {
-            background: var(--bg-dark);
-            padding: 4rem 3rem;
-            border-radius: 30px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            border: 3px solid var(--gold);
-            max-width: 90vw;
-            width: 600px;
-            text-align: center;
-            transform: scale(0.3);
-            transition: all 0.5s ease;
-            position: relative;
-        }
-
-        .moon-modal.show .moon-card {
-            transform: scale(1);
-        }
-
-        .moon-card .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--accent);
+            background: linear-gradient(135deg, #121212 0%, #1E1E1E 100%);
+            width: 350px;
+            max-width: 90%;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+            border: 2px solid var(--accent-color);
         }
 
-        /* صورة القمر الكاملة */
-        .moon-image {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 3rem;
-            background: radial-gradient(circle at 30% 30%, #FFF8DC, #F0E68C, #DAA520);
+        .magic-card.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: all;
+            animation: cardGlow 2s infinite alternate;
+        }
+
+        @keyframes cardGlow {
+            from {
+                box-shadow: 0 0 15px rgba(187, 134, 252, 0.3);
+                border-color: var(--accent-color);
+            }
+            to {
+                box-shadow: 0 0 25px rgba(187, 134, 252, 0.5), 0 0 35px rgba(187, 134, 252, 0.2);
+                border-color: var(--gold);
+            }
+        }
+
+        .moon {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+            fill: var(--gold);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+        }
+
+        .magic-text {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            text-shadow: 0 0 5px rgba(187, 134, 252, 0.5);
+        }
+
+        .heart {
+            width: 25px;
+            height: 25px;
+            fill: var(--pink);
+            margin-left: 10px;
+            vertical-align: middle;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .signature {
+            text-align: left;
+            margin-top: 2rem;
+            font-style: italic;
+            border-top: 1px solid var(--accent-color);
+            padding-top: 1rem;
+        }
+
+        .signature .name {
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .signature .nick {
+            color: var(--pink);
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pink);
+            border: none;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5rem;
-            box-shadow: 
-                0 0 50px rgba(218, 165, 32, 0.5),
-                inset 0 0 30px rgba(255, 255, 255, 0.2);
-            animation: moonGlow 3s ease-in-out infinite alternate;
-            position: relative;
+            transition: var(--transition);
         }
 
-        /* فوهات القمر */
-        .moon-image::before {
-            content: '';
-            position: absolute;
-            top: 25%;
-            left: 30%;
-            width: 20px;
-            height: 20px;
-            background: rgba(139, 69, 19, 0.3);
-            border-radius: 50%;
+        .close-btn:hover {
+            background: var(--accent-color);
+            transform: rotate(90deg);
         }
 
-        .moon-image::after {
-            content: '';
-            position: absolute;
-            top: 65%;
-            left: 65%;
-            width: 15px;
-            height: 15px;
-            background: rgba(139, 69, 19, 0.2);
-            border-radius: 50%;
-        }
-
-        @keyframes moonGlow {
-            from { 
-                box-shadow: 
-                    0 0 50px rgba(218, 165, 32, 0.5),
-                    inset 0 0 30px rgba(255, 255, 255, 0.2);
-            }
-            to { 
-                box-shadow: 
-                    0 0 80px rgba(218, 165, 32, 0.8),
-                    inset 0 0 50px rgba(255, 255, 255, 0.4);
-            }
-        }
-
-        .moon-card h3 {
-            color: var(--accent);
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            font-weight: 400;
-        }
-
-        /* التوقيع على الشمال */
-        .moon-card .signature-area {
-            margin-top: 3rem;
-            text-align: left;
-            border-top: 2px solid var(--gold);
-            padding-top: 2rem;
-        }
-
-        .moon-card .signature {
-            color: var(--gold);
-            font-size: 1.5rem;
-            font-style: italic;
-            font-weight: 500;
-        }
-
-        /* تصميم متجاوب */
+        /* التكيف مع أحجام الشاشات المختلفة */
         @media (max-width: 768px) {
-            .magic-box { 
-                width: 120px; 
-                height: 120px; 
-                bottom: 30px; 
-                right: 30px; 
+            h1 {
+                font-size: 2rem;
             }
-            .box-icon { font-size: 3rem; }
             
-            .magic-wand { 
-                width: 70px; 
-                height: 70px; 
-                bottom: 30px; 
-                left: 30px; 
+            .dashboard {
+                padding: 1.5rem;
+                width: 95%;
             }
-            .wand-icon { font-size: 2rem; }
             
-            .love-message { width: 400px; }
-            .moon-card { width: 500px; }
-            .moon-image { width: 150px; height: 150px; font-size: 4rem; }
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .magic-card {
+                width: 320px;
+                padding: 2rem;
+            }
+            
+            .magic-text {
+                font-size: 1.5rem;
+            }
+            
+            .moon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .interaction-box {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .magic-wand {
+                width: 70px;
+                height: 70px;
+            }
         }
 
         @media (max-width: 480px) {
-            .magic-box { 
-                width: 100px; 
-                height: 100px; 
-                bottom: 20px; 
-                right: 20px; 
+            h1 {
+                font-size: 1.8rem;
             }
-            .box-icon { font-size: 2.5rem; }
             
-            .magic-wand { 
-                width: 60px; 
-                height: 60px; 
-                bottom: 20px; 
-                left: 20px; 
+            .dashboard {
+                padding: 1rem;
             }
-            .wand-icon { font-size: 1.8rem; }
             
-            .love-message { width: 350px; }
-            .moon-card { width: 400px; }
-            .moon-image { width: 120px; height: 120px; font-size: 3rem; }
+            .interaction-box, .magic-wand {
+                width: 70px;
+                height: 70px;
+                bottom: 30px;
+            }
+            
+            .lock-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .wand-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .butterfly {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .magic-card {
+                width: 300px;
+                padding: 1.5rem;
+            }
+            
+            .magic-text {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- زر الوضع الليلي -->
-    <button class="theme-toggle" id="themeToggle">🌙</button>
-
-    <!-- Header -->
-    <header class="header">
+    <!-- الهيدر -->
+    <header>
         <h1>رحاب</h1>
-        <p>✨ سحر لا ينتهي ✨</p>
+        <p class="nickname">رحوبتي</p>
     </header>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content">
-        <div class="welcome-text">
-            <p>مرحباً بكِ في عالمك السحري</p>
-            <p>اضغطي على الصندوق الخشبي لتري الفراشات تملأ السماء</p>
-            <p>أو المسي العصا السحرية لمفاجأة تحت ضوء القمر</p>
+    <!-- لوحة التحكم -->
+    <main>
+        <div class="dashboard">
+            <!-- الرسائل والفراشات ستظهر هنا ديناميكيًا -->
         </div>
     </main>
 
-    <!-- الصندوق الخشبي الكبير -->
-    <div class="magic-box" tabindex="0" role="button" aria-label="الصندوق السحري">
-        <div class="box-icon">📦</div>
+    <!-- صندوق التفاعل الخشبي -->
+    <div class="interaction-box" tabindex="0" aria-label="فتح صندوق الرسائل">
+        <svg class="lock-icon" viewBox="0 0 24 24">
+            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+        </svg>
     </div>
 
-    <!-- العصا السحرية الحقيقية -->
-    <div class="magic-wand" tabindex="0" role="button" aria-label="العصا السحرية">
-        <div class="wand-icon">🪄</div>
+    <!-- العصا السحرية -->
+    <div class="magic-wand" tabindex="0" aria-label="العصا السحرية">
+        <svg class="wand-icon" viewBox="0 0 24 24">
+            <path d="M7.5,5.6L5,7L6.4,4.5L5,2L7.5,3.4L10,2L8.6,4.5L10,7L7.5,5.6M19.5,15.4L22,14L20.6,16.5L22,19L19.5,17.6L17,19L18.4,16.5L17,14L19.5,15.4M22,2L20.6,4.5L22,7L19.5,5.6L17,7L18.4,4.5L17,2L19.5,3.4L22,2M13.34,12.78L15.78,10.34L13.66,8.22L11.22,10.66L13.34,12.78M14.37,7.29L16.71,9.63C17.1,10 17.1,10.65 16.71,11.04L5.04,22.71C4.65,23.1 4,23.1 3.63,22.71L1.29,20.37C0.9,20 0.9,19.35 1.29,18.96L12.96,7.29C13.35,6.9 14,6.9 14.37,7.29Z" />
+        </svg>
     </div>
 
-    <!-- رسالة الحب -->
-    <div class="love-message" id="loveMessage">
-        <h3>💕 رسالة من القلب 💕</h3>
-        <p id="messageText"></p>
-        <div class="signature">من إسلام لرحوبته ❤️</div>
-    </div>
-
-    <!-- نافذة القمر -->
-    <div class="moon-modal" id="moonModal">
-        <div class="moon-card">
-            <button class="close-btn">&times;</button>
-            
-            <!-- صورة القمر الكاملة -->
-            <div class="moon-image">🌙</div>
-            
-            <h3>أنتِ أحلى منه</h3>
-            
-            <!-- التوقيع على الشمال -->
-            <div class="signature-area">
-                <div class="signature">إلى رحوبتي</div>
-            </div>
+    <!-- البطاقة السحرية -->
+    <div class="magic-card">
+        <button class="close-btn" aria-label="إغلاق البطاقة">×</button>
+        <svg class="moon" viewBox="0 0 24 24">
+            <path d="M12,3C7.03,3 3,7.03 3,12C3,16.97 7.03,21 12,21C16.97,21 21,16.97 21,12C21,7.03 16.97,3 12,3M12,19C8.14,19 5,15.86 5,12C5,8.14 8.14,5 12,5C15.86,5 19,8.14 19,12C19,15.86 15.86,19 12,19Z" />
+        </svg>
+        <p class="magic-text">أنتِ أحلى منه <svg class="heart" viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" /></svg></p>
+        <div class="signature">
+            <p class="name">إلى رحوبتي</p>
+            <p class="nick">الحب الأبدي</p>
         </div>
     </div>
 
+    <!-- الرسائل العائمة -->
+    <div class="message-container">
+        <p class="message"></p>
+    </div>
+
     <script>
-        // الرسائل العشر
-        const messages = [
-            "وجودك بيحول اللحظة العادية لحكاية حلوة",
-            "بوجودك بتلمع الأيام كأنها نجوم",
-            "ضحكتك بتنور قلبي كل يوم",
-            "كل لحظة معاكي بتتحول لذكرى جميلة",
-            "أنتِ رقة ما تتوصف بكلام",
-            "وجودك هدية من السما",
-            "قلبك دفا وحنية ما لها نهاية",
-            "معاكي الدنيا بتبقى أحلى",
-            "عيونك بتحكي أجمل الحكايات",
-            "انتِ موسيقى لطيفة في يومي",
-            "بحبك لدرجات ما تتقاسش"
-        ];
+        // كيفية التعديل:
+        // 1. لتعديل الجمل: قم بتعديل مصفوفة messages أدناه
+        // 2. لتغيير الألوان: قم بتعديل متغيرات CSS في قسم :root
+        // 3. لتعديل مدة الطيران: قم بتعديل animation-duration في .butterfly في CSS
 
-        // ألوان الفراشات الجميلة
-        const butterflyColors = [
-            ['#FF6B9D', '#FFB3D1'],
-            ['#4ECDC4', '#A8E6CF'],
-            ['#45B7D1', '#87CEEB'],
-            ['#96CEB4', '#C8E6C9'],
-            ['#FFEAA7', '#FFF9C4'],
-            ['#DDA0DD', '#E1BEE7'],
-            ['#F39C12', '#FFD93D'],
-            ['#FF7675', '#FDCB6E']
-        ];
-
-        let isFirstOpen = true;
-        let isAnimating = false;
-        let activeButterflies = [];
-        const butterflyCount = 15;
-
-        // العناصر
-        const themeToggle = document.getElementById('themeToggle');
-        const magicBox = document.querySelector('.magic-box');
-        const magicWand = document.querySelector('.magic-wand');
-        const loveMessage = document.getElementById('loveMessage');
-        const messageText = document.getElementById('messageText');
-        const moonModal = document.getElementById('moonModal');
-        const closeBtn = document.querySelector('.close-btn');
-
-        // تبديل الوضع الليلي
-        themeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            this.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        });
-
-        // إنشاء SVG للفراشة الجميلة
-        function createButterflyHTML(colors) {
-            const [primaryColor, secondaryColor] = colors;
-            return `
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="translate(50,50)">
-                        <ellipse cx="-20" cy="-15" rx="16" ry="25" fill="${primaryColor}" transform="rotate(-25)" opacity="0.9"/>
-                        <ellipse cx="-15" cy="8" rx="10" ry="16" fill="${secondaryColor}" transform="rotate(-15)" opacity="0.8"/>
-                        <ellipse cx="20" cy="-15" rx="16" ry="25" fill="${primaryColor}" transform="rotate(25)" opacity="0.9"/>
-                        <ellipse cx="15" cy="8" rx="10" ry="16" fill="${secondaryColor}" transform="rotate(15)" opacity="0.8"/>
-                        <ellipse cx="0" cy="0" rx="3" ry="30" fill="#2C3E50"/>
-                        <circle cx="-14" cy="-10" r="3" fill="#FFF" opacity="0.9"/>
-                        <circle cx="14" cy="-10" r="3" fill="#FFF" opacity="0.9"/>
-                        <line x1="0" y1="-25" x2="-7" y2="-35" stroke="#2C3E50" stroke-width="2"/>
-                        <line x1="0" y1="-25" x2="7" y2="-35" stroke="#2C3E50" stroke-width="2"/>
-                        <circle cx="-7" cy="-35" r="2" fill="${primaryColor}"/>
-                        <circle cx="7" cy="-35" r="2" fill="${primaryColor}"/>
-                    </g>
-                </svg>
-            `;
-        }
-
-        // إنشاء الفراشات
-        function createButterflies() {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            const boxRect = magicBox.getBoundingClientRect();
-            const startX = boxRect.left + boxRect.width / 2;
-            const startY = boxRect.top + boxRect.height / 2;
-
-            // مسح الفراشات السابقة
-            activeButterflies.forEach(butterfly => {
-                if (butterfly.parentNode) {
-                    butterfly.parentNode.removeChild(butterfly);
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM
+            const interactionBox = document.querySelector('.interaction-box');
+            const magicWand = document.querySelector('.magic-wand');
+            const magicCard = document.querySelector('.magic-card');
+            const closeBtn = document.querySelector('.close-btn');
+            const messageContainer = document.querySelector('.message-container');
+            const messageText = document.querySelector('.message');
+            const dashboard = document.querySelector('.dashboard');
+            
+            // قائمة الرسائل
+            const messages = [
+                "وجودك بيحول اللحظة العادية لحكاية حلوة",
+                "بوجودك بتلمع الأيام كأنها نجوم",
+                "ضحكتك بتنور قلبي كل يوم",
+                "كل لحظة معاكي بتتحول لذكرى جميلة",
+                "أنتِ رقة ما تتوصف بكلام",
+                "وجودك هدية من السما",
+                "قلبك دفا وحنية ما لها نهاية",
+                "معاكي الدنيا بتبقى أحلى",
+                "عيونك بتحكي أجمل الحكايات",
+                "انتِ موسيقى لطيفة في يومي",
+                "بحبك لدرجات ما تتقاسش"
+            ];
+            
+            // ألوان الفراشات
+            const butterflyColors = [
+                '#BB86FC', '#FFD700', '#FF4B5C', '#03DAC6',
+                '#CF6679', '#6200EE', '#018786', '#FF8A80'
+            ];
+            
+            // حالة الصندوق
+            let isBoxOpen = false;
+            let firstOpen = true;
+            
+            // فتح/إغلاق الصندوق
+            interactionBox.addEventListener('click', openBox);
+            interactionBox.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openBox();
                 }
             });
-            activeButterflies = [];
-
-            // إنشاء فراشات جديدة
-            for (let i = 0; i < butterflyCount; i++) {
+            
+            // فتح/إغلاق العصا السحرية
+            magicWand.addEventListener('click', toggleMagicCard);
+            magicWand.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleMagicCard();
+                }
+            });
+            
+            // إغلاق البطاقة السحرية
+            closeBtn.addEventListener('click', closeMagicCard);
+            document.addEventListener('click', function(e) {
+                if (magicCard.classList.contains('show') && !e.target.closest('.magic-card') && e.target !== magicWand) {
+                    closeMagicCard();
+                }
+            });
+            
+            // وظيفة فتح الصندوق
+            function openBox() {
+                if (isBoxOpen) return;
+                
+                isBoxOpen = true;
+                interactionBox.classList.add('open');
+                
+                // إذا كانت المرة الأولى، عرض الرسالة الأولى
+                if (firstOpen) {
+                    showMessage(messages[0]);
+                    firstOpen = false;
+                } else {
+                    // عرض رسالة عشوائية
+                    const randomIndex = Math.floor(Math.random() * (messages.length - 1)) + 1;
+                    showMessage(messages[randomIndex]);
+                }
+                
+                // إغلاق الصندوق بعد 10 ثواني
                 setTimeout(() => {
+                    interactionBox.classList.remove('open');
+                    isBoxOpen = false;
+                }, 10000);
+            }
+            
+            // وظيفة عرض الرسالة
+            function showMessage(msg) {
+                messageText.textContent = msg;
+                messageContainer.classList.add('show');
+                
+                // إنشاء الفراشات
+                createButterflies();
+                
+                // إخفاء الرسالة بعد 10 ثواني
+                setTimeout(() => {
+                    messageContainer.classList.remove('show');
+                }, 10000);
+            }
+            
+            // وظيفة إنشاء الفراشات
+            function createButterflies() {
+                // مسح أي فراشات موجودة مسبقًا
+                document.querySelectorAll('.butterfly').forEach(b => b.remove());
+                
+                // إنشاء 8-12 فراشة
+                const butterflyCount = Math.floor(Math.random() * 5) + 8;
+                const boxRect = interactionBox.getBoundingClientRect();
+                const startX = boxRect.left + boxRect.width / 2;
+                const startY = boxRect.top + boxRect.height / 2;
+                
+                for (let i = 0; i < butterflyCount; i++) {
                     const butterfly = document.createElement('div');
                     butterfly.className = 'butterfly';
                     
-                    const colorPair = butterflyColors[Math.floor(Math.random() * butterflyColors.length)];
-                    butterfly.innerHTML = createButterflyHTML(colorPair);
+                    // تحديد موقع النهاية عشوائيًا
+                    const endX = (Math.random() - 0.5) * window.innerWidth * 1.5;
+                    const endY = -window.innerHeight * 0.9;
                     
-                    butterfly.style.left = startX + 'px';
-                    butterfly.style.top = startY + 'px';
+                    // تعيين مواقع البداية والنهاية
+                    butterfly.style.left = `${startX}px`;
+                    butterfly.style.top = `${startY}px`;
+                    butterfly.style.setProperty('--end-x', `${endX}px`);
+                    butterfly.style.setProperty('--end-y', `${endY}px`);
+                    
+                    // تأخير عشوائي لبدء التحليق
+                    butterfly.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    // لون عشوائي
+                    const color = butterflyColors[Math.floor(Math.random() * butterflyColors.length)];
+                    
+                    // إنشاء الأجنحة
+                    const leftWing = document.createElement('div');
+                    leftWing.className = 'wing left-wing';
+                    leftWing.style.backgroundColor = color;
+                    leftWing.style.boxShadow = `0 0 15px ${color}`;
+                    
+                    const rightWing = document.createElement('div');
+                    rightWing.className = 'wing right-wing';
+                    rightWing.style.backgroundColor = color;
+                    rightWing.style.boxShadow = `0 0 15px ${color}`;
+                    
+                    butterfly.appendChild(leftWing);
+                    butterfly.appendChild(rightWing);
                     
                     document.body.appendChild(butterfly);
-                    activeButterflies.push(butterfly);
-                    
-                    requestAnimationFrame(() => {
-                        butterfly.classList.add('flying');
-                    });
-                    
-                }, i * 100);
-            }
-
-            // عودة سحرية بعد 10 ثواني بالضبط
-            setTimeout(() => {
-                returnButterfliesMagically();
-            }, 10000);
-        }
-
-        // عودة سحرية للفراشات والرسالة
-        function returnButterfliesMagically() {
-            // إخفاء الرسالة أولاً
-            loveMessage.classList.add('hide');
-            setTimeout(() => {
-                loveMessage.classList.remove('show', 'hide');
-            }, 500);
-
-            // عودة الفراشات بشكل سحري
-            activeButterflies.forEach((butterfly, index) => {
-                setTimeout(() => {
-                    if (butterfly.parentNode) {
-                        butterfly.classList.remove('flying');
-                        butterfly.classList.add('returning');
-                        
-                        setTimeout(() => {
-                            if (butterfly.parentNode) {
-                                butterfly.parentNode.removeChild(butterfly);
-                            }
-                        }, 3000);
-                    }
-                }, index * 50);
-            });
-
-            setTimeout(() => {
-                isAnimating = false;
-                activeButterflies = [];
-            }, 4000);
-        }
-
-        // عرض الرسالة
-        function showMessage() {
-            let message;
-            if (isFirstOpen) {
-                message = messages[0];
-                isFirstOpen = false;
-            } else {
-                const availableMessages = messages.slice(1);
-                message = availableMessages[Math.floor(Math.random() * availableMessages.length)];
+                }
             }
             
-            messageText.textContent = message;
-            loveMessage.classList.add('show');
-        }
-
-        // عرض نافذة القمر
-        function showMoonModal() {
-            moonModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function hideMoonModal() {
-            moonModal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-
-        // الأحداث
-        magicBox.addEventListener('click', function() {
-            if (isAnimating) return;
-            createButterflies();
-            showMessage();
-        });
-
-        magicBox.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.click();
+            // وظيفة تبديل البطاقة السحرية
+            function toggleMagicCard() {
+                if (magicCard.classList.contains('show')) {
+                    closeMagicCard();
+                } else {
+                    openMagicCard();
+                }
+            }
+            
+            // وظيفة فتح البطاقة السحرية
+            function openMagicCard() {
+                magicCard.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // وظيفة إغلاق البطاقة السحرية
+            function closeMagicCard() {
+                magicCard.classList.remove('show');
+                document.body.style.overflow = 'auto';
             }
         });
-
-        magicWand.addEventListener('click', showMoonModal);
-
-        magicWand.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.click();
-            }
-        });
-
-        closeBtn.addEventListener('click', hideMoonModal);
-
-        moonModal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideMoonModal();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && moonModal.classList.contains('show')) {
-                hideMoonModal();
-            }
-        });
-
-        console.log('🦋 موقع رحاب - تنفيذ دقيق للمطلوب 🦋');
     </script>
 </body>
 </html>
